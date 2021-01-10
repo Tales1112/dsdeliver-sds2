@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.devsuperior.dsdeliver.dto.OrderDTO;
 import com.devsuperior.dsdeliver.dto.ProductDTO;
@@ -43,7 +46,13 @@ public class OrderService {
 	   return new OrderDTO(order);
 	    
 	}
-	
+	@Transactional
+	public OrderDTO setDelivered(Long id) {
+		Order order = repository.getOne(id);
+		order.setStatus(OrderStatus.DELIVERED);
+		order = repository.save(order);
+		return new OrderDTO(order);
 	}
 	
-
+}
+ 
